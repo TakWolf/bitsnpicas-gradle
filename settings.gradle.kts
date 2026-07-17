@@ -15,3 +15,6 @@ dependencyResolutionManagement {
 rootProject.name = "bitsnpicas-gradle"
 
 include(":bitsnpicas")
+include(":keyedit")
+include(":mapedit")
+include(":unicode")

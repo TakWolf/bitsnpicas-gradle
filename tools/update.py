@@ -26,14 +26,16 @@ def _update_java_src():
         file.extractall(downloads_dir)
     logger.info("Unzip: '{}'", source_unzip_dir)
 
-    src_root_dir = project_root_dir.joinpath('bitsnpicas', 'src', 'main', 'java')
-    if src_root_dir.exists():
-        shutil.rmtree(src_root_dir)
-    source_unzip_dir.joinpath('main', 'java', 'BitsNPicas', 'src').rename(src_root_dir)
+    for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
+        src_root_dir = project_root_dir.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
+        if src_root_dir.exists():
+            shutil.rmtree(src_root_dir)
+        src_root_dir.parent.mkdir(parents=True, exist_ok=True)
+        source_unzip_dir.joinpath('main', 'java', 'BitsNPicas', 'src', 'com', 'kreative', module_name).rename(src_root_dir)
+        logger.info("Update src: '{}'", src_root_dir)
 
     if source_unzip_dir.exists():
         shutil.rmtree(source_unzip_dir)
-    logger.info("Update src: '{}'", src_root_dir)
 
 
 def main():

@@ -1,5 +1,5 @@
 plugins {
-    java
+    `java-library`
 }
 
 java {
@@ -8,6 +8,4 @@ java {
     }
 }
 
-dependencies {
-    implementation(project(":unicode"))
-}
+dependencies {}
