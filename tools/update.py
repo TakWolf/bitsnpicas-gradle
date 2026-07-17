@@ -58,9 +58,28 @@ def _format_javas():
                 logger.info("Format: '{}'", file_path)
 
 
+def _fix_resources():
+    for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
+        resources_root_dir = project_root_dir.joinpath(module_name, 'src', 'main', 'resources')
+        if resources_root_dir.exists():
+            shutil.rmtree(resources_root_dir)
+
+        src_root_dir = project_root_dir.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
+        for file_dir, _, file_names in src_root_dir.walk():
+            for file_name in file_names:
+                if file_name.endswith('.java'):
+                    continue
+                file_from_path = file_dir.joinpath(file_name)
+                file_to_path = resources_root_dir.joinpath(file_from_path.relative_to(src_root_dir))
+                file_to_path.parent.mkdir(parents=True, exist_ok=True)
+                file_from_path.rename(file_to_path)
+                logger.info("Move: '{}' -> '{}'", file_from_path, file_to_path)
+
+
 def main():
     _update_javas()
     _format_javas()
+    _fix_resources()
 
 
 if __name__ == '__main__':
