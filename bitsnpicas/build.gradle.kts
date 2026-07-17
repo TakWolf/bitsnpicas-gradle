@@ -1,6 +1,7 @@
 plugins {
     java
     application
+    id("com.gradleup.shadow")
 }
 
 java {
@@ -15,4 +16,10 @@ application {
 
 dependencies {
     implementation(project(":unicode"))
+}
+
+tasks.shadowJar {
+    archiveBaseName = "BitsNPicas"
+    archiveClassifier = ""
+    destinationDirectory = rootProject.layout.buildDirectory.dir("releases")
 }
