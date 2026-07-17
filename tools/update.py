@@ -76,10 +76,57 @@ def _fix_resources():
                 logger.info("Move: '{}' -> '{}'", file_from_path, file_to_path)
 
 
+def _fix_resources_ref():
+    for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
+        src_root_dir = project_root_dir.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
+        src_root_dir_str = str(src_root_dir)
+        for file_dir, _, file_names in src_root_dir.walk():
+            resources_prefix = str(file_dir).removeprefix(src_root_dir_str).replace('\\', '/') + '/'
+
+            for file_name in file_names:
+                if not file_name.endswith('.java'):
+                    continue
+                file_path = file_dir.joinpath(file_name)
+
+                need_fix = False
+
+                lines = []
+                for line in file_path.read_text('utf-8').splitlines():
+                    if 'class.getResource(' in line:
+                        line = line.replace('class.getResource(', f'class.getResource("{resources_prefix}" + ')
+                        if f'class.getResource("{resources_prefix}" + "' in line:
+                            line = line.replace(f'class.getResource("{resources_prefix}" + "', f'class.getResource("{resources_prefix}')
+                        need_fix = True
+
+                    if 'class.getResourceAsStream(' in line:
+                        line = line.replace('class.getResourceAsStream(', f'class.getResourceAsStream("{resources_prefix}" + ')
+                        if f'class.getResourceAsStream("{resources_prefix}" + "' in line:
+                            line = line.replace(f'class.getResourceAsStream("{resources_prefix}" + "', f'class.getResourceAsStream("{resources_prefix}')
+                        need_fix = True
+
+                    lines.append(line)
+                lines.append('')
+                text = '\n'.join(lines)
+
+                if need_fix:
+                    file_path.write_text(text, 'utf-8')
+                    logger.info("Fix resources ref: '{}'", file_path)
+
+
+def _fix_resources_ref_2():
+    file_path = project_root_dir.joinpath('bitsnpicas', 'src', 'main', 'java', 'com', 'kreative', 'bitsnpicas', 'XMLUtility.java')
+    text = file_path.read_text('utf-8')
+    text = text.replace('return new InputSource(resCls.getResourceAsStream(dtdName));', 'return new InputSource(resCls.getResourceAsStream("/importer/" + dtdName));')
+    file_path.write_text(text, 'utf-8')
+    logger.info("Fix resources ref: '{}'", file_path)
+
+
 def main():
     _update_javas()
     _format_javas()
     _fix_resources()
+    _fix_resources_ref()
+    _fix_resources_ref_2()
 
 
 if __name__ == '__main__':
