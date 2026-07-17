@@ -1,0 +1,232 @@
+package com.kreative.bitsnpicas.main;
+
+import java.io.File;
+import java.io.IOException;
+import com.kreative.bitsnpicas.BitmapFontExporter;
+import com.kreative.bitsnpicas.MacUtility;
+import com.kreative.bitsnpicas.exporter.*;
+import com.kreative.unicode.data.EncodingList;
+
+public enum BitmapOutputFormat {
+	KBITX(".kbitx", "kbitx", "kbnp2") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new KbitxBitmapFontExporter();
+		}
+	},
+	KBITS(".kbits", "kbits", "kbnp1") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new KbitsBitmapFontExporter();
+		}
+	},
+	TTF(".ttf", "ttf", "truetype") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new TTFBitmapFontExporter(o.xSize, o.ySize, o.extendWinMetrics);
+		}
+	},
+	OTB(".otb", "otb") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new OTBBitmapFontExporter(o.extendWinMetrics);
+		}
+	},
+	BDF(".bdf", "bdf") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new BDFBitmapFontExporter();
+		}
+	},
+	PSF2(".psf", "psf", "psf2") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new PSFBitmapFontExporter(
+				2, o.getPsfLowEncoding(), o.getPsfHighEncoding(),
+				o.psfUseLowEncoding, o.psfUseHighEncoding,
+				o.psfUseAllGlyphs, o.psfUnicodeTable, false
+			);
+		}
+	},
+	PSF1(".psf", "psf1") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new PSFBitmapFontExporter(
+				1, o.getPsfLowEncoding(), o.getPsfHighEncoding(),
+				o.psfUseLowEncoding, o.psfUseHighEncoding,
+				o.psfUseAllGlyphs, o.psfUnicodeTable, false
+			);
+		}
+	},
+	PSF2GZ(".psf.gz", "psfgz", "psf2gz") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new PSFBitmapFontExporter(
+				2, o.getPsfLowEncoding(), o.getPsfHighEncoding(),
+				o.psfUseLowEncoding, o.psfUseHighEncoding,
+				o.psfUseAllGlyphs, o.psfUnicodeTable, true
+			);
+		}
+	},
+	PSF1GZ(".psf.gz", "psf1gz") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new PSFBitmapFontExporter(
+				1, o.getPsfLowEncoding(), o.getPsfHighEncoding(),
+				o.psfUseLowEncoding, o.psfUseHighEncoding,
+				o.psfUseAllGlyphs, o.psfUnicodeTable, true
+			);
+		}
+	},
+	SUIT(".suit", "suit", true) {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			o.idgen.setRange(128, 32768);
+			o.sizegen.setRange(4, 127);
+			o.sizegen.setPointSizes(9, 10, 12, 14, 18, 24, 36, 48, 72);
+			return new NFNTBitmapFontExporter.ResourceFile(o.idgen, o.sizegen, o.getEncoding());
+		}
+		public void postProcess(File file) throws IOException {
+			MacUtility.setTypeAndCreator(file, "FFIL", "DMOV");
+		}
+	},
+	DFONT(".dfont", "dfont", false) {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			o.idgen.setRange(128, 32768);
+			o.sizegen.setRange(4, 127);
+			o.sizegen.setPointSizes(9, 10, 12, 14, 18, 24, 36, 48, 72);
+			return new NFNTBitmapFontExporter.ResourceFile(o.idgen, o.sizegen, o.getEncoding());
+		}
+	},
+	NFNT(".nfnt", "nfnt") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new NFNTBitmapFontExporter.FlatFile(o.getEncoding());
+		}
+	},
+	SFONT(".png", "png", "sfont") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new SFontBitmapFontExporter();
+		}
+	},
+	RFONT(".png", "rfont") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new RFontBitmapFontExporter();
+		}
+	},
+	HEX(".hex", "hex") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new HexBitmapFontExporter();
+		}
+	},
+	CVT(".cvt", "cvt", "geos") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			o.idgen.setRange(128, 1024);
+			o.sizegen.setRange(6, 63);
+			o.sizegen.setPointSizes(9, 10, 12, 14, 18, 24, 36, 48, 60);
+			return new GEOSBitmapFontExporter(
+				o.idgen, o.sizegen, o.geosMega,
+				o.geosKerning, o.geosUTF8
+			);
+		}
+	},
+	FZX(".fzx", "fzx") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new FZXBitmapFontExporter(o.getEncoding());
+		}
+	},
+	U8M(".u8m", "u8m") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new U8MBitmapFontExporter(o.u8mLoadAddress, o.getEncoding());
+		}
+	},
+	AMIGA(".font", "font", "amiga") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new AmigaBitmapFontExporter.ContentsFile(o.amigaProportional, o.getEncoding());
+		}
+	},
+	FNT3(".fnt", "fnt", "fnt3") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new FNTBitmapFontExporter(3, o.getEncoding());
+		}
+	},
+	FNT2(".fnt", "fnt2") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new FNTBitmapFontExporter(2, o.getEncoding());
+		}
+	},
+	FONTX(".fnt", "dosv", "fontx", "fontx2") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			if (o.fontxDoubleByte) {
+				String en = o.fontxDoubleByteEncoding;
+				if (en == null || en.length() == 0) en = "CP943";
+				return new FONTXBitmapFontExporter(en);
+			} else {
+				String en = o.encodingName;
+				if (en == null || en.length() == 0) en = "CP437";
+				return new FONTXBitmapFontExporter(EncodingList.instance().getGlyphList(en));
+			}
+		}
+	},
+	MGTK(".fnt", "mgtk", "mgf", "mpf", "mousepaint") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new MGTKBitmapFontExporter(o.getEncoding());
+		}
+	},
+	RB12(".fnt", "rb12") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new RockboxBitmapFontExporter(RockboxBitmapFontExporter.RB12);
+		}
+	},
+	RB11(".fnt", "rb11") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new RockboxBitmapFontExporter(RockboxBitmapFontExporter.RB11);
+		}
+	},
+	CYBIKO(".fnt", "cybiko") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new CybikoBitmapFontExporter(o.getEncoding());
+		}
+	},
+	PLAYDATE_FNT(".fnt", "playdate", "playdate-allinone", "playdate-fnt") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new PlaydateBitmapFontExporter(false);
+		}
+	},
+	PLAYDATE_FNT_PNG(".fnt", "playdate-separate", "playdate-fnt+png") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new PlaydateBitmapFontExporter(true);
+		}
+	},
+	HRCG(".set", "hrcg", "set") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new HRCGBitmapFontExporter();
+		}
+	},
+	HMZK(".hmzk", "hmzk") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new HMZKBitmapFontExporter();
+		}
+	},
+	
+	// **** Add new formats above this line. ****
+	
+	SBF(".sbf", "sbf") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new SBFBitmapFontExporter(o.getEncoding());
+		}
+	},
+	TOS(".ft", "tos", "ft") {
+		public BitmapFontExporter createExporter(BitmapOutputOptions o) {
+			return new TOSBitmapFontExporter();
+		}
+	};
+	
+	public final String[] ids;
+	public final String suffix;
+	public final boolean macResFork;
+	
+	private BitmapOutputFormat(String suffix, String... ids) {
+		this.ids = ids;
+		this.suffix = suffix;
+		this.macResFork = false;
+	}
+	
+	private BitmapOutputFormat(String suffix, String id, boolean macResFork) {
+		this.ids = new String[]{id};
+		this.suffix = suffix;
+		this.macResFork = macResFork;
+	}
+	
+	public abstract BitmapFontExporter createExporter(BitmapOutputOptions o);
+	public void postProcess(File file) throws IOException {}
+}

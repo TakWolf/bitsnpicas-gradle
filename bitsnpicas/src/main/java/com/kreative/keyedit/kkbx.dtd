@@ -1,0 +1,239 @@
+<!--
+	Date: 2024/03/04 23:28:00 PDT
+	Author: Rebecca Bettencourt <support@kreativekorp.com>
+-->
+
+<!-- Keyboard Mapping -->
+
+<!ELEMENT keyboardMapping (name,winIdentifier?,winCopyright?,winCompany?,winLocale?,winAltGrEnable?,winShiftLock?,winLrmRlm?,macGroupNumber?,macIdNumber?,xkbPath?,xkbLabel?,xkbComment?,xkbUseKeySym?,xkbAltGrKey?,xkbComposeKey?,keymanIdentifier?,keymanName?,keymanCopyright?,keymanMessage?,keymanWebHelpText?,keymanVersion?,keymanComments?,keymanAuthor?,keymanEmailAddress?,keymanWebSite?,keymanRightToLeft?,keymanKey102?,keymanDisplayUnderlying?,keymanUseAltGr?,keymanIgnoreCaps?,keymanTargets?,keymanPlatforms?,keymanLanguages?,keymanAttachments?,keymanFileIds?,keymanCpLabels?,keymanFont?,keymanOSKFont?,keymanDisplayFont?,keymanDescription?,keymanLicense?,keymanReadme?,keymanHistory?,icon?,macIconVersion?,keyMappings,macActionIds?,html?,winAttachments?,macAttachments?,xkbAttachments?)>
+
+<!ELEMENT name (#PCDATA)>
+
+<!ELEMENT winIdentifier (#PCDATA)>
+
+<!ELEMENT winCopyright (#PCDATA)>
+
+<!ELEMENT winCompany (#PCDATA)>
+
+<!ELEMENT winLocale EMPTY>
+<!ATTLIST winLocale tag CDATA #REQUIRED>
+
+<!ELEMENT winAltGrEnable EMPTY>
+<!ATTLIST winAltGrEnable altgr (true|false) #REQUIRED>
+
+<!ELEMENT winShiftLock EMPTY>
+<!ATTLIST winShiftLock shiftlock (true|false) #REQUIRED>
+
+<!ELEMENT winLrmRlm EMPTY>
+<!ATTLIST winLrmRlm lrmrlm (true|false) #REQUIRED>
+
+<!ELEMENT macGroupNumber EMPTY>
+<!ATTLIST macGroupNumber group CDATA #REQUIRED>
+
+<!ELEMENT macIdNumber EMPTY>
+<!ATTLIST macIdNumber id CDATA #REQUIRED>
+
+<!ELEMENT xkbPath (#PCDATA)>
+
+<!ELEMENT xkbLabel (#PCDATA)>
+
+<!ELEMENT xkbComment (#PCDATA)>
+
+<!ELEMENT xkbUseKeySym EMPTY>
+<!ATTLIST xkbUseKeySym for (ascii|unicode) #REQUIRED>
+
+<!ELEMENT xkbAltGrKey EMPTY>
+<!ATTLIST xkbAltGrKey include CDATA #REQUIRED>
+
+<!ELEMENT xkbComposeKey EMPTY>
+<!ATTLIST xkbComposeKey include CDATA #REQUIRED>
+
+<!ELEMENT keymanIdentifier (#PCDATA)>
+
+<!ELEMENT keymanName (#PCDATA)>
+
+<!ELEMENT keymanCopyright (#PCDATA)>
+
+<!ELEMENT keymanMessage (#PCDATA)>
+
+<!ELEMENT keymanWebHelpText (#PCDATA)>
+
+<!ELEMENT keymanVersion (#PCDATA)>
+
+<!ELEMENT keymanComments (#PCDATA)>
+
+<!ELEMENT keymanAuthor (#PCDATA)>
+
+<!ELEMENT keymanEmailAddress (#PCDATA)>
+
+<!ELEMENT keymanWebSite (#PCDATA)>
+
+<!ELEMENT keymanRightToLeft EMPTY>
+<!ATTLIST keymanRightToLeft value (true|false) #REQUIRED>
+
+<!ELEMENT keymanKey102 EMPTY>
+<!ATTLIST keymanKey102 value (true|false) #REQUIRED>
+
+<!ELEMENT keymanDisplayUnderlying EMPTY>
+<!ATTLIST keymanDisplayUnderlying value (true|false) #REQUIRED>
+
+<!ELEMENT keymanUseAltGr EMPTY>
+<!ATTLIST keymanUseAltGr value (true|false) #REQUIRED>
+
+<!ELEMENT keymanIgnoreCaps EMPTY>
+<!ATTLIST keymanIgnoreCaps value (true|false) #REQUIRED>
+
+<!ELEMENT keymanTargets EMPTY>
+<!ATTLIST keymanTargets
+  any (true|false) #IMPLIED
+  windows (true|false) #IMPLIED
+  macosx (true|false) #IMPLIED
+  linux (true|false) #IMPLIED
+  web (true|false) #IMPLIED
+  iphone (true|false) #IMPLIED
+  ipad (true|false) #IMPLIED
+  androidphone (true|false) #IMPLIED
+  androidtablet (true|false) #IMPLIED
+  mobile (true|false) #IMPLIED
+  desktop (true|false) #IMPLIED
+  tablet (true|false) #IMPLIED
+>
+
+<!ELEMENT keymanPlatforms EMPTY>
+<!ATTLIST keymanPlatforms
+  tablet (true|false) #IMPLIED
+  phone (true|false) #IMPLIED
+  desktop (true|false) #IMPLIED
+>
+
+<!ELEMENT keymanLanguages (keymanLanguage*)>
+<!ELEMENT keymanLanguage EMPTY>
+<!ATTLIST keymanLanguage tag CDATA #REQUIRED name CDATA #REQUIRED>
+
+<!ELEMENT keymanAttachments (attachment*)>
+<!ELEMENT attachment (#PCDATA)>
+<!ATTLIST attachment name CDATA #REQUIRED>
+
+<!ELEMENT keymanFileIds (fileId*)>
+<!ELEMENT fileId EMPTY>
+<!ATTLIST fileId name CDATA #REQUIRED id CDATA #REQUIRED>
+
+<!ELEMENT keymanCpLabels (cpLabel*)>
+<!ELEMENT cpLabel EMPTY>
+<!ATTLIST cpLabel cp CDATA #REQUIRED label CDATA #REQUIRED>
+
+<!ELEMENT keymanFont EMPTY>
+<!ATTLIST keymanFont family CDATA #REQUIRED>
+
+<!ELEMENT keymanOSKFont EMPTY>
+<!ATTLIST keymanOSKFont file CDATA #REQUIRED>
+
+<!ELEMENT keymanDisplayFont EMPTY>
+<!ATTLIST keymanDisplayFont file CDATA #REQUIRED>
+
+<!ELEMENT keymanDescription (#PCDATA)>
+
+<!ELEMENT keymanLicense (#PCDATA)>
+<!ATTLIST keymanLicense type CDATA #REQUIRED>
+
+<!ELEMENT keymanReadme (#PCDATA)>
+
+<!ELEMENT keymanHistory (#PCDATA)>
+
+<!ELEMENT icon (#PCDATA)>
+
+<!ELEMENT macIconVersion EMPTY>
+<!ATTLIST macIconVersion version CDATA #REQUIRED>
+
+<!ELEMENT keyMappings (keyMapping*)>
+
+<!ELEMENT macActionIds (macActionId*)>
+<!ELEMENT macActionId EMPTY>
+<!ATTLIST macActionId input CDATA #REQUIRED action CDATA #REQUIRED>
+
+<!-- Key Mappings -->
+
+<!ELEMENT keyMapping (unshifted?,shifted?,capsLock?,altUnshifted?,altShifted?,altCapsLock?,ctrl?,command?)>
+<!ATTLIST keyMapping key CDATA #REQUIRED>
+
+<!ELEMENT unshifted (deadKey?,longPressOutput?)>
+<!ATTLIST unshifted output CDATA #IMPLIED>
+
+<!ELEMENT shifted (deadKey?,longPressOutput?)>
+<!ATTLIST shifted output CDATA #IMPLIED>
+
+<!ELEMENT capsLock EMPTY>
+<!ATTLIST capsLock mapsTo (unshifted|shifted|auto) #REQUIRED>
+
+<!ELEMENT altUnshifted (deadKey?,longPressOutput?)>
+<!ATTLIST altUnshifted output CDATA #IMPLIED>
+
+<!ELEMENT altShifted (deadKey?,longPressOutput?)>
+<!ATTLIST altShifted output CDATA #IMPLIED>
+
+<!ELEMENT altCapsLock EMPTY>
+<!ATTLIST altCapsLock mapsTo (altUnshifted|altShifted|auto) #REQUIRED>
+
+<!ELEMENT ctrl (deadKey?)>
+<!ATTLIST ctrl output CDATA #IMPLIED>
+
+<!ELEMENT command (deadKey?)>
+<!ATTLIST command output CDATA #IMPLIED>
+
+<!-- Dead Keys -->
+
+<!ELEMENT deadKey (winTerminator?,macTerminator?,macStateId?,xkbOutput?,xkbDeadKey?,deadKeyMap)>
+
+<!ELEMENT winTerminator EMPTY>
+<!ATTLIST winTerminator output CDATA #REQUIRED>
+
+<!ELEMENT macTerminator EMPTY>
+<!ATTLIST macTerminator output CDATA #REQUIRED>
+
+<!ELEMENT macStateId EMPTY>
+<!ATTLIST macStateId state CDATA #REQUIRED>
+
+<!ELEMENT xkbOutput EMPTY>
+<!ATTLIST xkbOutput output CDATA #REQUIRED>
+
+<!ELEMENT xkbDeadKey EMPTY>
+<!ATTLIST xkbDeadKey keysym CDATA #REQUIRED>
+
+<!ELEMENT deadKeyMap (deadKeyEntry*)>
+<!ELEMENT deadKeyEntry EMPTY>
+<!ATTLIST deadKeyEntry input CDATA #REQUIRED output CDATA #REQUIRED>
+
+<!-- Long Press Options -->
+
+<!ELEMENT longPressOutput (longPressEntry*)>
+<!ELEMENT longPressEntry EMPTY>
+<!ATTLIST longPressEntry output CDATA #REQUIRED>
+
+<!-- HTML Configuration -->
+
+<!ELEMENT html (title?,style?,h1?,h2?,body1?,body2?,body3?,body4?,install?,square?,outline?,cpClasses?,cpLabels?)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT style (#PCDATA)>
+<!ELEMENT h1 (#PCDATA)>
+<!ELEMENT h2 (#PCDATA)>
+<!ELEMENT body1 (#PCDATA)>
+<!ELEMENT body2 (#PCDATA)>
+<!ELEMENT body3 (#PCDATA)>
+<!ELEMENT body4 (#PCDATA)>
+<!ELEMENT install (#PCDATA)>
+<!ELEMENT square EMPTY>
+<!ATTLIST square chars CDATA #REQUIRED>
+<!ELEMENT outline EMPTY>
+<!ATTLIST outline chars CDATA #REQUIRED>
+<!ELEMENT cpClasses (td|span)*>
+<!ELEMENT td EMPTY>
+<!ATTLIST td class CDATA #REQUIRED chars CDATA #REQUIRED>
+<!ELEMENT span EMPTY>
+<!ATTLIST span class CDATA #REQUIRED chars CDATA #REQUIRED>
+<!ELEMENT cpLabels (cpLabel*)>
+
+<!-- Attachments -->
+
+<!ELEMENT winAttachments (attachment*)>
+<!ELEMENT macAttachments (attachment*)>
+<!ELEMENT xkbAttachments (attachment*)>
