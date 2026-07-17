@@ -35,7 +35,7 @@ public class HTMLWriter {
         if (km.htmlSquareChars != null && !km.htmlSquareChars.isEmpty()) {
             File fontFile = new File(file.getParentFile(), "KreativeSquare.ttf");
             FileOutputStream fontOut = new FileOutputStream(fontFile);
-            InputStream fontIn = HTMLWriter.class.getResourceAsStream("ksquare.ttf");
+            InputStream fontIn = HTMLWriter.class.getResourceAsStream("/ksquare.ttf");
             int read; byte[] buf = new byte[65536];
             while ((read = fontIn.read(buf)) >= 0) fontOut.write(buf, 0, read);
             fontIn.close();

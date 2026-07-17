@@ -32,7 +32,7 @@ public class GLMLResources {
     private static Image getImage(String name) {
         Image image = imageResources.get(name);
         if (image != null) return image;
-        URL res = GLMLResources.class.getResource(name);
+        URL res = GLMLResources.class.getResource("/edit/glmlicon/" + name);
         if (res == null) return null;
         image = Toolkit.getDefaultToolkit().createImage(res);
         if (image == null) return null;
@@ -42,7 +42,7 @@ public class GLMLResources {
 
     private static final Map<String,Map<String,Image>> mappedImages = new HashMap<String,Map<String,Image>>();
     static {
-        Scanner index = new Scanner(GLMLResources.class.getResourceAsStream("index.txt"));
+        Scanner index = new Scanner(GLMLResources.class.getResourceAsStream("/edit/glmlicon/index.txt"));
         while (index.hasNextLine()) {
             String[] line = index.nextLine().trim().split("\\s+", 3);
             if (line.length != 3) continue;
@@ -58,7 +58,7 @@ public class GLMLResources {
     private static final BufferedImage[] subtableImages = new BufferedImage[256];
     static {
         try {
-            BufferedImage ss = ImageIO.read(GLMLResources.class.getResource("subtable.png"));
+            BufferedImage ss = ImageIO.read(GLMLResources.class.getResource("/edit/glmlicon/subtable.png"));
             int cw = ss.getWidth() / 32;
             int ch = ss.getHeight();
             int[] rgb = new int[cw * ch];

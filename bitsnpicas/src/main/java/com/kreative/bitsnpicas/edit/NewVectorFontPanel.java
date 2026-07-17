@@ -37,7 +37,7 @@ public class NewVectorFontPanel extends JPanel {
 
         ArrayList<String> presetNames = new ArrayList<String>();
         ArrayList<double[]> presetValues = new ArrayList<double[]>();
-        Scanner scanner = new Scanner(NewVectorFontPanel.class.getResourceAsStream("NewVectorFontPresets.txt"), "UTF-8");
+        Scanner scanner = new Scanner(NewVectorFontPanel.class.getResourceAsStream("/edit/NewVectorFontPresets.txt"), "UTF-8");
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
             if (line.length() > 0) {

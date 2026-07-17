@@ -8,7 +8,7 @@ public final class HTMLWriterUtility {
     private HTMLWriterUtility() {}
 
     public static Scanner getTemplate(String name) {
-        return new Scanner(HTMLWriterUtility.class.getResourceAsStream(name), "UTF-8");
+        return new Scanner(HTMLWriterUtility.class.getResourceAsStream("/" + name), "UTF-8");
     }
 
     private static Pattern FIELD_PATTERN = Pattern.compile("[{][{]([^}]+)[}][}]");

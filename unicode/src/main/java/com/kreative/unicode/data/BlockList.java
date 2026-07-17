@@ -29,7 +29,7 @@ public class BlockList extends AbstractList<Block> {
 
     private BlockList() {
         TreeSet<Block> blocks = new TreeSet<Block>();
-        readTextStream(BlockList.class.getResourceAsStream("roadmap.txt"), blocks);
+        readTextStream(BlockList.class.getResourceAsStream("/data/roadmap.txt"), blocks);
         readPuaaTable(PuaaCache.getPuaaTable("unidata.ucd"), blocks);
 
         String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();

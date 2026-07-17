@@ -14,7 +14,7 @@ public final class KeyManWriterUtility {
     private KeyManWriterUtility() {}
 
     public static Scanner getTemplate(String name) {
-        return new Scanner(KeyManWriterUtility.class.getResourceAsStream(name), "UTF-8");
+        return new Scanner(KeyManWriterUtility.class.getResourceAsStream("/" + name), "UTF-8");
     }
 
     private static Pattern FIELD_PATTERN = Pattern.compile("[{][{]([^}]+)[}][}]");

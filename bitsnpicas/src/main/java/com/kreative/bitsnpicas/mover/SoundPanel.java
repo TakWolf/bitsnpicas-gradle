@@ -27,7 +27,7 @@ public class SoundPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
     public SoundPanel(final DfontResource snd) {
-        JLabel iconLabel = new JLabel(new ImageIcon(SoundPanel.class.getResource("Sound.png")));
+        JLabel iconLabel = new JLabel(new ImageIcon(SoundPanel.class.getResource("/mover/Sound.png")));
         iconLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
         JButton playButton = new JButton("Play Sound");

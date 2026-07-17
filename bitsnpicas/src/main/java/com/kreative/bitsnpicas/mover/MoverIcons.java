@@ -35,7 +35,7 @@ public class MoverIcons {
     public static final ImageIcon SUITCASE_SYSTEM_32 = icon("Suitcase.System.32.png", "system suitcase");
 
     private static ImageIcon icon(String name, String description) {
-        return new ImageIcon(MoverIcons.class.getResource(name), description);
+        return new ImageIcon(MoverIcons.class.getResource("/mover/" + name), description);
     }
 
     public static ImageIcon getFileIcon(File file) {

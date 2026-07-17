@@ -187,7 +187,7 @@ public class XkbWriter {
     }
 
     public static void writeInstall(PrintWriter out, String name, String dispName) {
-        Scanner scan = new Scanner(XkbWriter.class.getResourceAsStream("install.py"), "UTF-8");
+        Scanner scan = new Scanner(XkbWriter.class.getResourceAsStream("/install.py"), "UTF-8");
         while (scan.hasNextLine()) out.println(scan.nextLine());
         scan.close();
         out.println();

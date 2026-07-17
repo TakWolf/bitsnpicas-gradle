@@ -18,7 +18,7 @@ public class PuaaCache {
         if (resCache.containsKey(res)) return resCache.get(res);
 
         try {
-            TtfFile ttf = new TtfFile(PuaaCache.class.getResourceAsStream(res));
+            TtfFile ttf = new TtfFile(PuaaCache.class.getResourceAsStream("/data/" + res));
             PuaaTable puaa = ttf.getTableAs(PuaaTable.class, "PUAA");
             resCache.put(res, puaa);
             return puaa;

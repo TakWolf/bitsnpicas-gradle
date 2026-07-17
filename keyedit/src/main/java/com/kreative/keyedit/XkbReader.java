@@ -271,7 +271,7 @@ public class XkbReader {
         @Override
         public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
             if (systemId.contains("xkb.dtd")) {
-                return new InputSource(XkbReader.class.getResourceAsStream("xkb.dtd"));
+                return new InputSource(XkbReader.class.getResourceAsStream("/xkb.dtd"));
             } else {
                 return null;
             }

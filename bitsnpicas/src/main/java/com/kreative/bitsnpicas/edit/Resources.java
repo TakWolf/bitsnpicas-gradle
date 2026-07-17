@@ -19,14 +19,14 @@ public class Resources {
     public static final Font PSNAME_FONT = getFont("PsName.ttf", 10f);
 
     private static Image getImage(String name) {
-        return Toolkit.getDefaultToolkit().createImage(Resources.class.getResource(name));
+        return Toolkit.getDefaultToolkit().createImage(Resources.class.getResource("/edit/" + name));
     }
 
     private static Font getFont(String name, float size) {
         try {
             return Font.createFont(
                 Font.TRUETYPE_FONT,
-                Resources.class.getResourceAsStream(name)
+                Resources.class.getResourceAsStream("/edit/" + name)
             ).deriveFont(size);
         } catch (Exception e) {
             return null;

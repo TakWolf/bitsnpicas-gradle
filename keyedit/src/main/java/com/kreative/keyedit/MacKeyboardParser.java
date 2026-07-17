@@ -348,7 +348,7 @@ public class MacKeyboardParser {
         @Override
         public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
             if (systemId.contains("KeyboardLayout.dtd")) {
-                return new InputSource(MacKeyboardParser.class.getResourceAsStream("keylayout.dtd"));
+                return new InputSource(MacKeyboardParser.class.getResourceAsStream("/keylayout.dtd"));
             } else {
                 return null;
             }

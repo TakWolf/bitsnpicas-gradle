@@ -37,7 +37,7 @@ public class NewBitmapFontPanel extends JPanel {
 
         ArrayList<String> presetNames = new ArrayList<String>();
         ArrayList<int[]> presetValues = new ArrayList<int[]>();
-        Scanner scanner = new Scanner(NewBitmapFontPanel.class.getResourceAsStream("NewBitmapFontPresets.txt"), "UTF-8");
+        Scanner scanner = new Scanner(NewBitmapFontPanel.class.getResourceAsStream("/edit/NewBitmapFontPresets.txt"), "UTF-8");
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
             if (line.length() > 0) {

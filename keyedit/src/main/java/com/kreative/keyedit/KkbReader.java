@@ -666,7 +666,7 @@ public class KkbReader {
         @Override
         public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
             if (publicId.contains("KreativeKeyboard") || systemId.contains("kkbx.dtd")) {
-                return new InputSource(KkbReader.class.getResourceAsStream("kkbx.dtd"));
+                return new InputSource(KkbReader.class.getResourceAsStream("/kkbx.dtd"));
             } else {
                 return null;
             }

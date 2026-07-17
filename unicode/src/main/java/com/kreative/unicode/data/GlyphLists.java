@@ -32,8 +32,8 @@ public class GlyphLists extends AbstractList<GlyphList> {
     private GlyphLists() {
         TreeSet<GlyphList> glyphLists = new TreeSet<GlyphList>();
         Map<String,GlyphList> glyphListMap = new HashMap<String,GlyphList>();
-        add(readBinaryStream(GlyphLists.class.getResourceAsStream("wgl4.pchgl")), glyphLists, glyphListMap);
-        add(readBinaryStream(GlyphLists.class.getResourceAsStream("kgl1.pchgl")), glyphLists, glyphListMap);
+        add(readBinaryStream(GlyphLists.class.getResourceAsStream("/data/wgl4.pchgl")), glyphLists, glyphListMap);
+        add(readBinaryStream(GlyphLists.class.getResourceAsStream("/data/kgl1.pchgl")), glyphLists, glyphListMap);
         readDirectory(UnicodeUtils.getTableDirectory("GlyphLists"), glyphLists, glyphListMap);
         this.glyphLists = Arrays.asList(glyphLists.toArray(new GlyphList[glyphLists.size()]));
         this.glyphListMap = Collections.unmodifiableMap(glyphListMap);

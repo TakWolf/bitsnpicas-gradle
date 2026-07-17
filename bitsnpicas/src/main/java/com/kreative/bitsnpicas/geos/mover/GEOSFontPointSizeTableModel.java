@@ -11,7 +11,7 @@ public class GEOSFontPointSizeTableModel extends AbstractTableModel {
     private static final long serialVersionUID = 1L;
 
     private static final ImageIcon ICON = new ImageIcon(
-        GEOSFontPointSizeTableModel.class.getResource("FontIcon.png")
+        GEOSFontPointSizeTableModel.class.getResource("/geos/mover/FontIcon.png")
     );
 
     private GEOSFontFile gff;
