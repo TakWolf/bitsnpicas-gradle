@@ -30,7 +30,7 @@ public class HMZKBitmapFontExporter implements BitmapFontExporter {
         exportFont(font, new DataOutputStream(out));
         out.close();
     }
-    
+
     private void exportFont(BitmapFont font, DataOutputStream out) throws IOException {
         int len = 0;
         // header

@@ -38,21 +38,21 @@ public class HMZKBitmapFontImporter implements BitmapFontImporter {
         return new BitmapFont[]{bm};
     }
 
-	public BitmapFont[] importFont(InputStream in) throws IOException {
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		byte[] buf = new byte[1048576]; int read;
-		while ((read = in.read(buf)) >= 0) out.write(buf, 0, read);
-		out.close();
-		return importFont(out.toByteArray());
-	}
-	
-	public BitmapFont[] importFont(File file) throws IOException {
-		FileInputStream in = new FileInputStream(file);
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		byte[] buf = new byte[1048576]; int read;
-		while ((read = in.read(buf)) >= 0) out.write(buf, 0, read);
-		out.close();
-		in.close();
-		return importFont(out.toByteArray());
-	}
+    public BitmapFont[] importFont(InputStream in) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte[] buf = new byte[1048576]; int read;
+        while ((read = in.read(buf)) >= 0) out.write(buf, 0, read);
+        out.close();
+        return importFont(out.toByteArray());
+    }
+
+    public BitmapFont[] importFont(File file) throws IOException {
+        FileInputStream in = new FileInputStream(file);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte[] buf = new byte[1048576]; int read;
+        while ((read = in.read(buf)) >= 0) out.write(buf, 0, read);
+        out.close();
+        in.close();
+        return importFont(out.toByteArray());
+    }
 }

@@ -7,7 +7,7 @@ from tools import project_root_dir, downloads_dir
 from tools.utils import download_util
 
 
-def _update_java_src():
+def _update_javas():
     sha = '6d1e7d96f0ad3f253d961e52922a2b15b95f853d'
 
     source_file_path = downloads_dir.joinpath(f'bitsnpicas-{sha}.zip')
@@ -38,8 +38,29 @@ def _update_java_src():
         shutil.rmtree(source_unzip_dir)
 
 
+def _format_javas():
+    for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
+        src_root_dir = project_root_dir.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
+        for file_dir, _, file_names in src_root_dir.walk():
+            for file_name in file_names:
+                if not file_name.endswith('.java'):
+                    continue
+                file_path = file_dir.joinpath(file_name)
+
+                lines = []
+                for line in file_path.read_text('utf-8').splitlines():
+                    line = line.replace('\t', '    ').rstrip()
+                    lines.append(line)
+                lines.append('')
+                text = '\n'.join(lines)
+
+                file_path.write_text(text, 'utf-8')
+                logger.info("Format: '{}'", file_path)
+
+
 def main():
-    _update_java_src()
+    _update_javas()
+    _format_javas()
 
 
 if __name__ == '__main__':
