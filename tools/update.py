@@ -69,10 +69,16 @@ def _fix_resources():
             for file_name in file_names:
                 if file_name.endswith('.java'):
                     continue
+
                 file_from_path = file_dir.joinpath(file_name)
                 file_to_path = resources_root_dir.joinpath(file_from_path.relative_to(src_root_dir))
                 file_to_path.parent.mkdir(parents=True, exist_ok=True)
                 file_from_path.rename(file_to_path)
+
+                if file_to_path.suffix == '.txt':
+                    text = file_to_path.read_text('utf-8')
+                    file_to_path.write_text(text, 'utf-8')
+
                 logger.info("Move: '{}' -> '{}'", file_from_path, file_to_path)
 
 
