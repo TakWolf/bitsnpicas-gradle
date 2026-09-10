@@ -1,6 +1,6 @@
 from pathlib import Path
 
-project_root_dir = Path(__file__).parent.joinpath('..').resolve()
+PROJECT_ROOT_DIR = Path(__file__).parent.joinpath('..').resolve()
 
-cache_dir = project_root_dir.joinpath('cache')
-downloads_dir = cache_dir.joinpath('downloads')
+CACHE_DIR = PROJECT_ROOT_DIR.joinpath('cache')
+DOWNLOADS_DIR = CACHE_DIR.joinpath('downloads')

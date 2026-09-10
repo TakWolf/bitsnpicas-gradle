@@ -3,31 +3,31 @@ from zipfile import ZipFile
 
 from loguru import logger
 
-from tools import project_root_dir, downloads_dir
+from tools import PROJECT_ROOT_DIR, DOWNLOADS_DIR
 from tools.utils import download_util
 
 
 def _update_javas():
     sha = '6d1e7d96f0ad3f253d961e52922a2b15b95f853d'
 
-    source_file_path = downloads_dir.joinpath(f'bitsnpicas-{sha}.zip')
+    source_file_path = DOWNLOADS_DIR.joinpath(f'bitsnpicas-{sha}.zip')
     if not source_file_path.exists():
         asset_url = f'https://github.com/kreativekorp/bitsnpicas/archive/{sha}.zip'
         logger.info("Start download: '{}'", asset_url)
-        downloads_dir.mkdir(parents=True, exist_ok=True)
+        DOWNLOADS_DIR.mkdir(parents=True, exist_ok=True)
         download_util.download_file(asset_url, source_file_path)
     else:
         logger.info("Already downloaded: '{}'", source_file_path)
 
-    source_unzip_dir = downloads_dir.joinpath(f'bitsnpicas-{sha}')
+    source_unzip_dir = DOWNLOADS_DIR.joinpath(f'bitsnpicas-{sha}')
     if source_unzip_dir.exists():
         shutil.rmtree(source_unzip_dir)
     with ZipFile(source_file_path) as file:
-        file.extractall(downloads_dir)
+        file.extractall(DOWNLOADS_DIR)
     logger.info("Unzip: '{}'", source_unzip_dir)
 
     for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
-        src_root_dir = project_root_dir.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
+        src_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
         if src_root_dir.exists():
             shutil.rmtree(src_root_dir)
         src_root_dir.parent.mkdir(parents=True, exist_ok=True)
@@ -40,7 +40,7 @@ def _update_javas():
 
 def _format_javas():
     for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
-        src_root_dir = project_root_dir.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
+        src_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
         for file_dir, _, file_names in src_root_dir.walk():
             for file_name in file_names:
                 if not file_name.endswith('.java'):
@@ -60,11 +60,11 @@ def _format_javas():
 
 def _fix_resources():
     for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
-        resources_root_dir = project_root_dir.joinpath(module_name, 'src', 'main', 'resources')
+        resources_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'resources')
         if resources_root_dir.exists():
             shutil.rmtree(resources_root_dir)
 
-        src_root_dir = project_root_dir.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
+        src_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
         for file_dir, _, file_names in src_root_dir.walk():
             for file_name in file_names:
                 if file_name.endswith('.java'):
@@ -84,7 +84,7 @@ def _fix_resources():
 
 def _fix_resources_ref():
     for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
-        src_root_dir = project_root_dir.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
+        src_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
         src_root_dir_str = str(src_root_dir)
         for file_dir, _, file_names in src_root_dir.walk():
             resources_prefix = str(file_dir).removeprefix(src_root_dir_str).replace('\\', '/') + '/'
@@ -120,7 +120,7 @@ def _fix_resources_ref():
 
 
 def _fix_resources_ref_2():
-    file_path = project_root_dir.joinpath('bitsnpicas', 'src', 'main', 'java', 'com', 'kreative', 'bitsnpicas', 'XMLUtility.java')
+    file_path = PROJECT_ROOT_DIR.joinpath('bitsnpicas', 'src', 'main', 'java', 'com', 'kreative', 'bitsnpicas', 'XMLUtility.java')
     text = file_path.read_text('utf-8')
     text = text.replace('return new InputSource(resCls.getResourceAsStream(dtdName));', 'return new InputSource(resCls.getResourceAsStream("/importer/" + dtdName));')
     file_path.write_text(text, 'utf-8')
