@@ -7,7 +7,7 @@ from tools import PROJECT_ROOT_DIR, DOWNLOADS_DIR
 from tools.utils import download_util
 
 
-def _update_javas():
+def _update_javas() -> None:
     sha = '6d1e7d96f0ad3f253d961e52922a2b15b95f853d'
 
     source_file_path = DOWNLOADS_DIR.joinpath(f'bitsnpicas-{sha}.zip')
@@ -38,7 +38,7 @@ def _update_javas():
         shutil.rmtree(source_unzip_dir)
 
 
-def _format_javas():
+def _format_javas() -> None:
     for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
         src_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
         for file_dir, _, file_names in src_root_dir.walk():
@@ -58,7 +58,7 @@ def _format_javas():
                 logger.info("Format: '{}'", file_path)
 
 
-def _fix_resources():
+def _fix_resources() -> None:
     for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
         resources_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'resources')
         if resources_root_dir.exists():
@@ -82,7 +82,7 @@ def _fix_resources():
                 logger.info("Move: '{}' -> '{}'", file_from_path, file_to_path)
 
 
-def _fix_resources_ref():
+def _fix_resources_ref() -> None:
     for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
         src_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
         src_root_dir_str = str(src_root_dir)
@@ -119,7 +119,7 @@ def _fix_resources_ref():
                     logger.info("Fix resources ref: '{}'", file_path)
 
 
-def _fix_resources_ref_2():
+def _fix_resources_ref_2() -> None:
     file_path = PROJECT_ROOT_DIR.joinpath('bitsnpicas', 'src', 'main', 'java', 'com', 'kreative', 'bitsnpicas', 'XMLUtility.java')
     text = file_path.read_text('utf-8')
     text = text.replace('return new InputSource(resCls.getResourceAsStream(dtdName));', 'return new InputSource(resCls.getResourceAsStream("/importer/" + dtdName));')
@@ -127,7 +127,7 @@ def _fix_resources_ref_2():
     logger.info("Fix resources ref: '{}'", file_path)
 
 
-def main():
+def main() -> None:
     _update_javas()
     _format_javas()
     _fix_resources()
