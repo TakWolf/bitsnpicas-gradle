@@ -8,7 +8,7 @@ from tools.utils import download_util
 
 
 def _update_javas() -> None:
-    sha = '6d1e7d96f0ad3f253d961e52922a2b15b95f853d'
+    sha = '43b11dca0809a3342b8281b570897e8654ffe705'
 
     source_file_path = DOWNLOADS_DIR.joinpath(f'bitsnpicas-{sha}.zip')
     if not source_file_path.exists():
