@@ -7,7 +7,7 @@ from tools import PROJECT_ROOT_DIR, DOWNLOADS_DIR
 from tools.utils import download_util
 
 
-def _update_javas() -> None:
+def _update_java_sources() -> None:
     sha = '43b11dca0809a3342b8281b570897e8654ffe705'
 
     source_file_path = DOWNLOADS_DIR.joinpath(f'bitsnpicas-{sha}.zip')
@@ -38,7 +38,7 @@ def _update_javas() -> None:
         shutil.rmtree(source_unzip_dir)
 
 
-def _format_javas() -> None:
+def _format_java_files() -> None:
     for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
         src_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
         for file_dir, _, file_names in src_root_dir.walk():
@@ -82,7 +82,7 @@ def _fix_resources() -> None:
                 logger.info("Move: '{}' -> '{}'", file_from_path, file_to_path)
 
 
-def _fix_resources_ref() -> None:
+def _fix_resource_refs() -> None:
     for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
         src_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
         src_root_dir_str = str(src_root_dir)
@@ -119,7 +119,7 @@ def _fix_resources_ref() -> None:
                     logger.info("Fix resources ref: '{}'", file_path)
 
 
-def _fix_resources_ref_2() -> None:
+def _fix_resource_refs_2() -> None:
     file_path = PROJECT_ROOT_DIR.joinpath('bitsnpicas', 'src', 'main', 'java', 'com', 'kreative', 'bitsnpicas', 'XMLUtility.java')
     text = file_path.read_text('utf-8')
     text = text.replace('return new InputSource(resCls.getResourceAsStream(dtdName));', 'return new InputSource(resCls.getResourceAsStream("/importer/" + dtdName));')
@@ -128,11 +128,11 @@ def _fix_resources_ref_2() -> None:
 
 
 def main() -> None:
-    _update_javas()
-    _format_javas()
+    _update_java_sources()
+    _format_java_files()
     _fix_resources()
-    _fix_resources_ref()
-    _fix_resources_ref_2()
+    _fix_resource_refs()
+    _fix_resource_refs_2()
 
 
 if __name__ == '__main__':
