@@ -41,21 +41,19 @@ def _update_java_sources() -> None:
 def _format_java_files() -> None:
     for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
         src_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
-        for file_dir, _, file_names in src_root_dir.walk():
-            for file_name in file_names:
-                if not file_name.endswith('.java'):
-                    continue
-                file_path = file_dir.joinpath(file_name)
+        for file_path in src_root_dir.rglob('*.java'):
+            if not file_path.is_file():
+                continue
 
-                lines = []
-                for line in file_path.read_text('utf-8').splitlines():
-                    line = line.replace('\t', '    ').rstrip()
-                    lines.append(line)
-                lines.append('')
-                text = '\n'.join(lines)
+            lines = []
+            for line in file_path.read_text('utf-8').splitlines():
+                line = line.replace('\t', '    ').rstrip()
+                lines.append(line)
+            lines.append('')
+            text = '\n'.join(lines)
 
-                file_path.write_text(text, 'utf-8')
-                logger.info("Format: '{}'", file_path)
+            file_path.write_text(text, 'utf-8')
+            logger.info("Format: '{}'", file_path)
 
 
 def _fix_resources() -> None:
@@ -65,58 +63,57 @@ def _fix_resources() -> None:
             shutil.rmtree(resources_root_dir)
 
         src_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
-        for file_dir, _, file_names in src_root_dir.walk():
-            for file_name in file_names:
-                if file_name.endswith('.java'):
-                    continue
+        for file_from_path in src_root_dir.rglob('*'):
+            if not file_from_path.is_file():
+                continue
 
-                file_from_path = file_dir.joinpath(file_name)
-                file_to_path = resources_root_dir.joinpath(file_from_path.relative_to(src_root_dir))
-                file_to_path.parent.mkdir(parents=True, exist_ok=True)
-                file_from_path.rename(file_to_path)
+            if file_from_path.suffix == '.java':
+                continue
 
-                if file_to_path.suffix == '.txt':
-                    text = file_to_path.read_text('utf-8')
-                    file_to_path.write_text(text, 'utf-8')
+            file_to_path = resources_root_dir.joinpath(file_from_path.relative_to(src_root_dir))
+            file_to_path.parent.mkdir(parents=True, exist_ok=True)
+            file_from_path.rename(file_to_path)
 
-                logger.info("Move: '{}' -> '{}'", file_from_path, file_to_path)
+            if file_to_path.suffix == '.txt':
+                text = file_to_path.read_text('utf-8')
+                file_to_path.write_text(text, 'utf-8')
+
+            logger.info("Move: '{}' -> '{}'", file_from_path, file_to_path)
 
 
 def _fix_resource_refs() -> None:
     for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
         src_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
-        src_root_dir_str = str(src_root_dir)
-        for file_dir, _, file_names in src_root_dir.walk():
-            resources_prefix = str(file_dir).removeprefix(src_root_dir_str).replace('\\', '/') + '/'
+        src_root_dir_str = str(src_root_dir.as_posix())
+        for file_path in src_root_dir.rglob('*.java'):
+            if not file_path.is_file():
+                continue
 
-            for file_name in file_names:
-                if not file_name.endswith('.java'):
-                    continue
-                file_path = file_dir.joinpath(file_name)
+            resources_prefix = str(file_path.parent.as_posix()).removeprefix(src_root_dir_str) + '/'
 
-                need_fix = False
+            need_fix = False
 
-                lines = []
-                for line in file_path.read_text('utf-8').splitlines():
-                    if 'class.getResource(' in line:
-                        line = line.replace('class.getResource(', f'class.getResource("{resources_prefix}" + ')
-                        if f'class.getResource("{resources_prefix}" + "' in line:
-                            line = line.replace(f'class.getResource("{resources_prefix}" + "', f'class.getResource("{resources_prefix}')
-                        need_fix = True
+            lines = []
+            for line in file_path.read_text('utf-8').splitlines():
+                if 'class.getResource(' in line:
+                    line = line.replace('class.getResource(', f'class.getResource("{resources_prefix}" + ')
+                    if f'class.getResource("{resources_prefix}" + "' in line:
+                        line = line.replace(f'class.getResource("{resources_prefix}" + "', f'class.getResource("{resources_prefix}')
+                    need_fix = True
 
-                    if 'class.getResourceAsStream(' in line:
-                        line = line.replace('class.getResourceAsStream(', f'class.getResourceAsStream("{resources_prefix}" + ')
-                        if f'class.getResourceAsStream("{resources_prefix}" + "' in line:
-                            line = line.replace(f'class.getResourceAsStream("{resources_prefix}" + "', f'class.getResourceAsStream("{resources_prefix}')
-                        need_fix = True
+                if 'class.getResourceAsStream(' in line:
+                    line = line.replace('class.getResourceAsStream(', f'class.getResourceAsStream("{resources_prefix}" + ')
+                    if f'class.getResourceAsStream("{resources_prefix}" + "' in line:
+                        line = line.replace(f'class.getResourceAsStream("{resources_prefix}" + "', f'class.getResourceAsStream("{resources_prefix}')
+                    need_fix = True
 
-                    lines.append(line)
-                lines.append('')
-                text = '\n'.join(lines)
+                lines.append(line)
+            lines.append('')
+            text = '\n'.join(lines)
 
-                if need_fix:
-                    file_path.write_text(text, 'utf-8')
-                    logger.info("Fix resources ref: '{}'", file_path)
+            if need_fix:
+                file_path.write_text(text, 'utf-8')
+                logger.info("Fix resources ref: '{}'", file_path)
 
 
 def _fix_resource_refs_2() -> None:
