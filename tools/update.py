@@ -17,14 +17,14 @@ def _update_java_sources() -> None:
         DOWNLOADS_DIR.mkdir(parents=True, exist_ok=True)
         download_util.download_file(asset_url, source_file_path)
     else:
-        logger.info("Already downloaded: '{}'", source_file_path)
+        logger.info('Already downloaded: {!r}', str(source_file_path))
 
     source_unzip_dir = DOWNLOADS_DIR.joinpath(f'bitsnpicas-{sha}')
     if source_unzip_dir.exists():
         shutil.rmtree(source_unzip_dir)
     with ZipFile(source_file_path) as file:
         file.extractall(DOWNLOADS_DIR)
-    logger.info("Unzip: '{}'", source_unzip_dir)
+    logger.info('Unzip: {!r}', str(source_unzip_dir))
 
     for module_name in ('bitsnpicas', 'keyedit', 'mapedit', 'unicode'):
         src_root_dir = PROJECT_ROOT_DIR.joinpath(module_name, 'src', 'main', 'java', 'com', 'kreative', module_name)
@@ -32,7 +32,7 @@ def _update_java_sources() -> None:
             shutil.rmtree(src_root_dir)
         src_root_dir.parent.mkdir(parents=True, exist_ok=True)
         source_unzip_dir.joinpath('main', 'java', 'BitsNPicas', 'src', 'com', 'kreative', module_name).rename(src_root_dir)
-        logger.info("Update src: '{}'", src_root_dir)
+        logger.info('Update src: {!r}', str(src_root_dir))
 
     if source_unzip_dir.exists():
         shutil.rmtree(source_unzip_dir)
@@ -53,7 +53,7 @@ def _format_java_files() -> None:
             text = '\n'.join(lines)
 
             file_path.write_text(text, 'utf-8')
-            logger.info("Format: '{}'", file_path)
+            logger.info('Format: {!r}', str(file_path))
 
 
 def _fix_resources() -> None:
@@ -78,7 +78,7 @@ def _fix_resources() -> None:
                 text = file_to_path.read_text('utf-8')
                 file_to_path.write_text(text, 'utf-8')
 
-            logger.info("Move: '{}' -> '{}'", file_from_path, file_to_path)
+            logger.info('Move: {!r} -> {!r}', str(file_from_path), str(file_to_path))
 
 
 def _fix_resource_refs() -> None:
@@ -113,7 +113,7 @@ def _fix_resource_refs() -> None:
 
             if need_fix:
                 file_path.write_text(text, 'utf-8')
-                logger.info("Fix resources ref: '{}'", file_path)
+                logger.info('Fix resources ref: {!r}', str(file_path))
 
 
 def _fix_resource_refs_2() -> None:
@@ -121,7 +121,7 @@ def _fix_resource_refs_2() -> None:
     text = file_path.read_text('utf-8')
     text = text.replace('return new InputSource(resCls.getResourceAsStream(dtdName));', 'return new InputSource(resCls.getResourceAsStream("/importer/" + dtdName));')
     file_path.write_text(text, 'utf-8')
-    logger.info("Fix resources ref: '{}'", file_path)
+    logger.info('Fix resources ref: {!r}', str(file_path))
 
 
 def main() -> None:
